@@ -1,0 +1,5 @@
+nodes: 3
+port: 10001
+rootnode: 0
+target: 0
+timeout: 800
