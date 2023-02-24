@@ -123,15 +123,15 @@ private:
   EventId           m_collectEvent;
 };
 TargetServer::TargetServer()
-  : m_socket(0),
-    //s_socket(0),
+  : m_socket(nullptr),
+    //s_socket(nullptr),
     local()
 {
 }
 
 TargetServer::~TargetServer()
 {
-  m_socket = 0;
+  m_socket = nullptr;
   //s_socket = 0;
   if (myAppData.is_open())
   {
@@ -153,8 +153,8 @@ TargetServer::DoDispose(void)
   <<"Simulation Time: "<<(Simulator::Now ().As (Time::S))<<" NS3 finished running"
   <<"\n****************************************\n\n";
   Simulator::Cancel (m_collectEvent);
-  m_socket = 0;
-  //s_socket = 0;
+  m_socket = nullptr;
+  //s_socket = nullptr;
   // chain up
   Application::DoDispose();
 }
@@ -162,13 +162,16 @@ TargetServer::DoDispose(void)
 void
 TargetServer::StartApplication() // Called at time specified by Start
 {
-  if (m_socket == 0)
+  if (!m_socket)
   {
     m_socket = Socket::CreateSocket(GetNode(), UdpSocketFactory::GetTypeId());
     //InetSocketAddress local = InetSocketAddress (Ipv4Address::GetAny (), m_port);
-    if (m_socket->Bind (local) == -1)
+    if (!local.IsInvalid())
     {
+      if (m_socket->Bind (local) == -1)
+      {
         NS_FATAL_ERROR ("Failed to bind socket");
+      }
     }
 
     m_socket->Listen();
@@ -192,7 +195,7 @@ void
 TargetServer::StopApplication() // Called at time specified by Stop
 {
   Simulator::Cancel (m_collectEvent);
-  if (m_socket != 0)
+  if (m_socket)
   {
     m_socket->Close();
     m_socket->SetRecvCallback(MakeNullCallback<void, Ptr<Socket> >());
