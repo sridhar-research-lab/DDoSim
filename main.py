@@ -407,9 +407,37 @@ def ns3(code = 0):
         ns3_cmd = tmp.format(jobs, numberOfNodesStr, total_emu_time)
 
     print("NS3_HOME=%s && %s"% ((os.environ['NS3_HOME']).strip(), ns3_cmd))
-    proc1 = subprocess.Popen(ns3_cmd, shell=True)
 
+    import getpass
+ 
+    try:
+        p = getpass.getpass(prompt='Sudo password:')
+    except Exception as error:
+        print('ERROR', error)
+
+    from tempfile import SpooledTemporaryFile as tempfile
+    f = tempfile()
+    f.write((p+'\n').encode('utf-8'))
+    f.seek(0)
+
+    proc1 = subprocess.Popen(ns3_cmd,stdin=f,shell=True)
+    f.close()
     time.sleep(5)
+    proc1.poll()
+    input('\nHit Enter')
+
+    '''
+    #https://stackoverflow.com/questions/54319960/wait-for-a-prompt-from-a-subprocess-before-sending-stdin-input
+    proc1 = subprocess.Popen(ns3_cmd,shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE)
+    import pexpect.fdpexpect
+    o=pexpect.fdpexpect.fdspawn(proc1.stdout.fileno())
+    o.expect("Sudo password:\n")
+    proc1.stdin.write(p+'\n')
+    proc1.stdin.close()
+    print(proc1.stdout.read())
+    '''
+
+
     print('proc1 = %s' % proc1.pid)
 
     with open(pidsDirectory + "ns3", "w") as text_file:
