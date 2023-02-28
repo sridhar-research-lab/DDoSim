@@ -335,14 +335,14 @@ TargetServer::OutData(void)
 
     myAppData << std::setprecision(2) << Simulator::Now().ToDouble(ns3::Time::S) << "\t" << std::fixed
                  << std::setprecision(9) << ((totalBytes == 0.0) ? 0.0 : ((totalBytes * 8.0 ) / duration)) << "\n";
-
-    startStastics = Simulator::Now().ToDouble(ns3::Time::MS);
-    totalBytes = 0.0;
     myAppData.close();
 
     //delay = NanoSeconds(0);
     //packet_count = 0;
   }
+  totalBytes = 0.0;
+  startStastics = Simulator::Now().ToDouble(ns3::Time::MS);
+
   m_collectEvent = Simulator::Schedule (Seconds(1.0), &TargetServer::OutData, this);
 }
 
