@@ -10,11 +10,11 @@ sudo apt-get update && sudo apt-get -y -q upgrade
 sudo apt-get -y -q dist-upgrade
 
 echo -e "\n\n Installing required packages ... \n" 
-sudo apt-get install -y git net-tools
+sudo apt-get install -y net-tools
 
 echo -e "\n\n Installing Ns3 required packages ... \n" 
 
-sudo apt-get install -y g++ python3 python3-dev pkg-config sqlite3 python3-setuptools qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools 
+sudo apt-get install -y g++ python3 python3-dev pkg-config sqlite3 python3-setuptools qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools cmake ninja-build git libffi7
 
 sudo apt-get install -y gir1.2-goocanvas-2.0 python3-gi python3-gi-cairo python3-pygraphviz gir1.2-gtk-3.0 ipython3 
 
@@ -26,9 +26,9 @@ sudo apt-get install -y gdb valgrind uncrustify
 
 sudo apt-get install -y doxygen graphviz imagemagick texlive texlive-extra-utils texlive-latex-extra texlive-font-utils dvipng latexmk
 
-sudo apt-get install -y tcpdump sqlite3 libsqlite3-dev libxml2 libxml2-dev cmake libc6-dev libc6-dev-i386 automake python3-pip
+sudo apt-get install -y tcpdump sqlite3 libsqlite3-dev libxml2 libxml2-dev libc6-dev libc6-dev-i386 automake python3-pip
 
-python3 -m pip install --user cxxfilt pyyaml
+python3 -m pip install --user cxxfilt pyyaml ninja
 
 sudo apt-get install libudev1
 #sudo mkdir /var/run/uuidd
