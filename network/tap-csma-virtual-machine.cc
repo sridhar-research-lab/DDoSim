@@ -446,9 +446,10 @@ main (int argc, char *argv[])
   }
 
   // churn
+  bool *isChurn = nullptr;
   if (churn != 0)
   {
-    bool isChurn[NumNodes + 1];
+    isChurn = new bool[NumNodes + 1];
     for(int i = 0; i <= NumNodes; i++)
     {
         isChurn[i] = false;
@@ -524,4 +525,10 @@ main (int argc, char *argv[])
   Simulator::Stop (Seconds (TotalTime));
   Simulator::Run ();
   Simulator::Destroy ();
+  if (churn != 0)
+  {
+    delete [] isChurn;
+  }
+
+  return 0;
 }
