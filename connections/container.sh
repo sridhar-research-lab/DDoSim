@@ -28,6 +28,7 @@ SIDE_B=se-$NAME # SIDE_B=side-ext-$NAME
 PID=$(docker inspect --format '{{ .State.Pid }}' $NAME)
 #PID=$2
 BRIDGE=br-$NAME
+#TAP=tap-$NAME
 INDEX=$2
 
 # IPv4
@@ -59,12 +60,13 @@ sudo mkdir -p /var/run/netns
 sudo ln -s /proc/$PID/ns/net /var/run/netns/$PID
 
 # without the follwoing, 'RTNETLINK answers: File exists' error happens sometimes
-sudo ip link del $SIDE_A &>/dev/null
+# sudo ip link del $SIDE_A &>/dev/null
 
 # Create a pair of "peer" interfaces A and B,
 # bind the A end to the bridge, and bring it up
 sudo ip link add $SIDE_A type veth peer name $SIDE_B
-sudo brctl addif $BRIDGE $SIDE_A
+# sudo brctl addif $BRIDGE $SIDE_A
+sudo ip link set dev $SIDE_A master $BRIDGE
 sudo ip link set $SIDE_A up
 
 # Place B inside the container's network namespace,
@@ -88,3 +90,8 @@ sudo ip netns exec $PID ip -6 addr add fd00::$HEXTET3:$HEXTET2:$HEXTET1/64 dev e
 # $ sudo ip netns exec $pid ip link set eth0 up
 # $ sudo ip netns exec $pid ip addr add 172.17.42.99/16 dev eth0
 # $ sudo ip netns exec $pid ip route add default via 172.17.42.1
+
+
+# mirror Traffic from $TAP to $SIDE_A
+# sudo tc qdisc add dev $TAP ingress
+# sudo tc filter add dev $TAP parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev $SIDE_A

@@ -31,7 +31,9 @@ baseContainerNameAtt = 'myattackbox'
 
 pidsDirectory = "./var/pid/"
 
-ns3Version='3.38'
+ns3Version=''
+with open('network/ns3_version') as f:
+    ns3Version = str.strip(f.readline())
 
 def main():
     global numberOfNodesStr, \

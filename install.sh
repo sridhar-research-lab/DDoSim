@@ -14,7 +14,7 @@ function check_code() {
     set +x;
 }
 
-NS3_VERSION='3.38'
+read NS3_VERSION < network/ns3_version
 
 echo -e "\n\n Updating enviroment... \n" 
 
@@ -34,7 +34,7 @@ check_code "sudo apt-get -y -q install ccache" "Installing Ns3 required packages
 
 check_code "sudo apt-get install -y -q gdb valgrind clang-format clang-tidy uncrustify" "Installing Ns3 required packages"
 
-sudo PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install --user cppyy 2> /dev/null
+# sudo PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install --user cppyy 2> /dev/null
 
 check_code "sudo apt-get -y -q install cmake-format"
 
@@ -105,7 +105,7 @@ echo -e "\n\n Installing Docker required packages  ... \n"
 
 sudo apt-get remove containerd.io -y 2> /dev/null
 
-check_code "sudo apt-get install -y -q docker docker.io" "Installing Docker"
+check_code "sudo apt-get install -y -q docker.io" "Installing Docker"
 
 check_code "sudo docker run hello-world" "Testing Docker"
 
@@ -113,7 +113,6 @@ sudo groupadd docker 2> /dev/null
 
 sudo gpasswd -a $USER docker && sudo usermod -aG docker $USER
 
-#sudo chmod 666 /var/run/docker.sock
 /usr/bin/newgrp docker <<EONG
 
 sudo service docker restart
@@ -126,8 +125,8 @@ EONG
 echo -e "\n\n Installing Network Bridges  ... \n"
 
 check_code "sudo apt-get install -y -q bridge-utils " "Installing Network Bridges"
-check_code "sudo apt-get install -y -q uml-utilities" "Installing Network Bridges"
 
+check_code "sudo apt-get install -y -q uml-utilities" "Installing Network Bridges"
 
 echo -e "\n\n Enabling IPv6 Functionality for Docker  ... \n"
 
@@ -147,21 +146,23 @@ check_code "qemu-x86_64-static --version" "Testing Support for Different Archite
 
 echo -e "\n\n Installing Docker buildx  ... \n"
 
-/usr/bin/newgrp docker <<EONG
+sudo apt-get install docker-buildx -y -q 2> /dev/null
 
-sudo service docker restart
+# /usr/bin/newgrp docker <<EONG
 
-DOCKER_BUILDKIT=1 docker build --platform=local -o . "https://github.com/docker/buildx.git"  2> /dev/null
+# sudo service docker restart
 
-EONG
+# DOCKER_BUILDKIT=1 docker build --platform=local -o . "https://github.com/docker/buildx.git"  1> /dev/null 2>& 1
 
-mkdir -p ~/.docker/cli-plugins
+# EONG
 
-mv buildx ~/.docker/cli-plugins/docker-buildx
+# mkdir -p ~/.docker/cli-plugins
+# mv buildx ~/.docker/cli-plugins/docker-buildx
+# sudo chmod a+x ~/.docker/cli-plugins/docker-buildx
 
 sudo service docker restart 2> /dev/null
 
-check_code "docker buildx" "Checking Docker Buildx"
+check_code "sudo docker buildx ls" "Checking Docker Buildx"
 
 echo -e "\n\n Everything is installed successfully  ... \n"
 
