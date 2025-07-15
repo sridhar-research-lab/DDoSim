@@ -50,4 +50,4 @@ RUN chmod +x /home/prep.sh
 
 RUN apt-get install -y -q wondershaper dnsutils net-tools
 
-CMD /home/prep.sh
+CMD ["/home/prep.sh"]

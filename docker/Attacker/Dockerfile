@@ -31,4 +31,4 @@ RUN chmod +x /etc/init.d/cncdaemon
 RUN chmod +x /prep.sh /dns.py /dhcp.py /cnc /db.sql
 RUN mv -t /home/ /prep.sh /dns.py /dhcp.py /cnc
 
-CMD /home/prep.sh
+CMD ["/home/prep.sh"]

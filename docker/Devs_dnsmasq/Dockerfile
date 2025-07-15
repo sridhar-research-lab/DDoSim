@@ -17,4 +17,4 @@ RUN chmod +x /home/prep.sh
 
 RUN apt-get install wondershaper net-tools curl -y -q
 
-CMD /home/prep.sh
+CMD ["/home/prep.sh"]
