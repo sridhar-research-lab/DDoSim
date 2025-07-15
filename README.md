@@ -188,10 +188,3 @@ DDOSim was developed as part of a research project on botnet DDoS attacks. The p
 We would like to extend our gratitude to the [NS3DockerEmulator](https://github.com/chepeftw/NS3DockerEmulator/) project for providing the foundational framework upon which DDOSim was built. This crucial resource enabled us to create a powerful and versatile simulation tool for studying DDoS attacks.
 
 Additionally, we appreciate the work of Joshua Lee on the modified version of [Mirai](https://github.com/lejolly/mirai), which has been incorporated into our project.
-
-
-## Contact
-
-For any questions or suggestions, please contact the project maintainers:
- * Islam Obaidat: <a href="mailto:iobaidat@charlotte.edu">iobaidat@charlotte.edu</a>
- * Meera Sridhar: <a href="mailto:msridhar@charlotte.edu">msridhar@charlotte.edu</a>
