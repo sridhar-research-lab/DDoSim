@@ -124,7 +124,7 @@ cd DDoSim/
 2. To launch an attack, make sure that Devs are connected to the C&C Server. You can see the number of bots in the title bar of the terminal running the C&C Server. Type the attack command in the C&C server's terminal, e.g.,:
 
     ```bash
-    udpplain 10.0.0.1 100 dport=9
+    udpplain 10.0.0.1 5 dport=9
     ```
 
     > **Note**: The IP address "10.0.0.1" is the IP of TServer. This IP is the same across all runs. You can also see this IP in the same terminal that you run the ```./main.py -n <nodes> ns3``` command.
